@@ -256,7 +256,7 @@ async function greet() {
 
 <style>
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft YaHei";
+  font-family: "PingFang SC", "Microsoft YaHei", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
