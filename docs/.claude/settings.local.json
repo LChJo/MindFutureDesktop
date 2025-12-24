@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(unity-log-reader:lark-docx)",
+      "Bash(node \"C:/Users/Bry/.claude/plugins/cache/mf-marketplace/unity-log-reader/1.0.0/skills/lark-docx/scripts/dist/cli.js\":*)",
+      "Bash(node:*)"
+    ]
+  }
+}
