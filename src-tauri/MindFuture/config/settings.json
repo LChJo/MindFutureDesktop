@@ -1,0 +1,15 @@
+{
+  "environmentVariables": {},
+  "defaultCli": "powershell",
+  "claudeCodePath": "",
+  "defaultWorkingDirectory": "",
+  "terminalFontSize": 14,
+  "textEditorPath": "code",
+  "shortcuts": [],
+  "keybindings": {
+    "ctrl+alt+t": "openTerminal",
+    "ctrl+alt+f": "openFileManager",
+    "ctrl+w": "closeWindow",
+    "alt+tab": "switchWindow"
+  }
+}

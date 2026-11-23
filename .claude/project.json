@@ -1,0 +1,49 @@
+{
+  "project_name": "Moonton Claude Desktop",
+  "project_slug": "moonton-claude-desktop",
+  "primary_language": "TypeScript/Rust",
+  "output_language": "zh",
+  "architecture_style": "layered",
+  "project_type": "desktop application",
+  "platforms": ["windows", "macos"],
+  "verification_commands": [
+    "npm run typecheck",
+    "npm run lint",
+    "npm run test"
+  ],
+  "build_commands": [
+    "npm run build:windows",
+    "npm run build:mac"
+  ],
+  "test_commands": [
+    "npm run test",
+    "npm run test:coverage",
+    "cargo test --manifest-path src-tauri/Cargo.toml"
+  ],
+  "error_strategy": {
+    "approach": "Result/Error propagation in Rust, try-catch in TypeScript",
+    "retry_policy": "no automatic retry for user-facing operations",
+    "fallback_behavior": "graceful degradation with user notification"
+  },
+  "workflow_policy": {
+    "completeness_mode": "balanced",
+    "ownership_mode": "solo",
+    "question_protocol": "structured",
+    "review_depth": "standard",
+    "require_ascii_diagrams": "auto",
+    "design_review_mode": "none",
+    "extraction_mode": "standard"
+  },
+  "needs_threading_model": true,
+  "needs_platform_bridge": true,
+  "readiness_target": "execution_ready",
+  "notes": [
+    "Tauri v2 IPC bridge between Vue 3 frontend and Rust backend",
+    "Sidecar processes: Coworks SDK (Claude Agent SDK), Feishu WebSocket listener",
+    "Plugin marketplace with Git-based distribution",
+    "Test infrastructure in place: Vitest (frontend), Cargo test (Rust), 93.6% aggregate coverage on 8 targeted modules",
+    "Knowledge graph hook installed; auto-rebuild on commit available via graphify hooks",
+    "All M1 Foundation tasks completed"
+  ],
+  "open_questions": []
+}

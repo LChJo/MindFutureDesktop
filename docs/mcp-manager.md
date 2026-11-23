@@ -1,6 +1,6 @@
 # MCP 管理功能说明
 
-MCP（Model Context Protocol）管理器是 MindFuture Desktop 的核心功能之一，用于管理 Claude Code 的 MCP 服务器配置。
+MCP（Model Context Protocol）管理器是 Moonton Claude Desktop 的核心功能之一，用于管理 Claude Code 的 MCP 服务器配置。
 
 ## 功能概述
 

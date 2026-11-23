@@ -1,0 +1,5 @@
+#!/bin/sh
+basedir=$(dirname "$0")
+
+# Simple npx implementation that just calls npm exec
+"$basedir/node" "$basedir/lib/node_modules/npm/bin/npm-cli.js" exec "$@"

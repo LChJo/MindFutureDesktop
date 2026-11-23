@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "graphify": {
+      "command": "python",
+      "args": [
+        "scripts/graph_server.py",
+        ".claude/wiki/graph.json"
+      ]
+    }
+  }
+}

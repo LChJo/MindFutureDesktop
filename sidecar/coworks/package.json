@@ -1,0 +1,20 @@
+{
+  "name": "coworks-sidecar",
+  "version": "1.0.0",
+  "description": "Claude Agent SDK sidecar for Coworks",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "deploy": "tsc && node -e \"const fs=require('fs');const path=require('path');const src='dist';const dest='../../src-tauri/resources/coworks-sidecar';fs.readdirSync(src).filter(f=>f.endsWith('.js')).forEach(f=>fs.copyFileSync(path.join(src,f),path.join(dest,f)));console.log('Deployed to',dest)\""
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.77"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

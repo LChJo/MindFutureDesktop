@@ -1,0 +1,9 @@
+[
+  {
+    "id": "bigmodel",
+    "name": "bigmodel",
+    "author": "Claude Code Router",
+    "description": "bigmodel preset",
+    "repo": "claude-code-router/bigmodel-preset"
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "workspace_readiness": "execution_ready",
+  "current_milestone": "M1",
+  "milestones": [
+    {
+      "id": "M1",
+      "name": "Maintenance Foundation",
+      "tasks": [
+        {
+          "id": "T1-1",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        },
+        {
+          "id": "T1-2",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        },
+        {
+          "id": "T1-3",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        },
+        {
+          "id": "T1-4",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        },
+        {
+          "id": "T1-5",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        },
+        {
+          "id": "T1-6",
+          "status": "NOT_STARTED",
+          "pbvf_phase": null,
+          "pbvf_retry_count": 0
+        }
+      ],
+      "coverage_gate": {
+        "status": "pending",
+        "target": 80,
+        "actual": null,
+        "report": "",
+        "checked_at": null
+      }
+    }
+  ]
+}

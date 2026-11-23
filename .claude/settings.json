@@ -1,0 +1,40 @@
+{
+  "rules": [
+    ".claude/rules/architecture.md",
+    ".claude/rules/completion-status.md",
+    ".claude/rules/decision-protocol.md",
+    ".claude/rules/platform-isolation.md",
+    ".claude/rules/project-constraints.md",
+    ".claude/rules/testing-gates.md",
+    ".claude/rules/thread-safety.md",
+    ".claude/rules/typescript-rust-safety.md"
+  ],
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"if (Test-Path '.claude/wiki/graph.json') { Write-Host '[graphify] Knowledge graph exists. Read .claude/wiki/GRAPH_REPORT.md for god nodes and community structure before searching files.' }\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"$ext = [System.IO.Path]::GetExtension($env:TOOL_INPUT_file_path);if ('.py','.ts','.tsx','.js','.jsx','.go','.rs','.cs','.cpp','.c','.java' -contains $ext) { python scripts/graph_update.py --force }\""
+          }
+        ]
+      }
+    ]
+  }
+}

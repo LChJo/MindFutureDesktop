@@ -2,7 +2,7 @@
 
 ## 概述
 
-插件市场是 MindFuture Desktop 的核心功能模块，用于管理 Claude Code 的插件生态系统。它提供了完整的插件发现、安装、管理和技能/代理浏览功能。
+插件市场是 Moonton Claude Desktop 的核心功能模块，用于管理 Claude Code 的插件生态系统。它提供了完整的插件发现、安装、管理和技能/代理浏览功能。
 
 ---
 
@@ -12,7 +12,7 @@
 
 #### 插件源管理
 - 支持添加多个插件市场源（Marketplace）
-- 内置官方市场源（如 claude-plugins-official、mf-marketplace）
+- 支持添加官方市场源（如 claude-plugins-official）
 - 可自定义添加第三方市场源
 - 支持市场源的更新和移除
 
@@ -127,7 +127,7 @@ A: 请确保插件已启用（绿色状态），如果问题持续，可以尝�
 A: 在市场 Tab 中点击"添加市场源"，输入 GitHub 仓库地址或本地路径即可。
 
 ### Q: 技能/代理创建的快捷方式在哪里？
-A: 快捷方式会显示在 MindFuture Desktop 的桌面上，双击即可快速调用对应的 Claude 技能或代理。
+A: 快捷方式会显示在 Moonton Claude Desktop 的桌面上，双击即可快速调用对应的 Claude 技能或代理。
 
 ---
 

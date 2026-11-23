@@ -35,12 +35,12 @@
 
 管理内嵌的 Node.js 运行环境。
 
-MindFuture Desktop 内嵌了 Node.js v20.x LTS 便携版，用于支持 Claude Code CLI 的运行。
+Moonton Claude Desktop 内嵌了 Node.js v20.x LTS 便携版，用于支持 Claude Code CLI 的运行。
 
 **状态信息：**
 - 安装状态：显示 Node.js 是否已释放到本地
 - 版本号：当前安装的 Node.js 版本
-- 路径：Node.js 安装位置（`%LOCALAPPDATA%\MindFuture\nodejs`）
+- 路径：Node.js 安装位置（`%LOCALAPPDATA%\MoontonClaudeDesktop\nodejs`）
 
 **操作按钮：**
 - **安装 Node.js**：首次使用时，点击释放内嵌的 Node.js 到本地

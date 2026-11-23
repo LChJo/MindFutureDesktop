@@ -1,0 +1,20 @@
+{
+  "name": "mcd-cli",
+  "version": "1.0.0",
+  "description": "Moonton Claude Desktop CLI - Launch Claude with injected environment variables",
+  "bin": {
+    "mcd": "./bin/mcd.js"
+  },
+  "main": "./lib/index.js",
+  "files": ["bin", "lib"],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "cli",
+    "moonton"
+  ],
+  "author": "Moonton",
+  "license": "MIT"
+}

@@ -1,8 +1,8 @@
 <h1 align="center">
   <br>
-  <img src="public/icons/icon.png" alt="MindFuture Desktop" width="120">
+  <img src="public/icons/icon.png" alt="Moonton Claude Desktop" width="120">
   <br>
-  MindFuture Desktop
+  Moonton Claude Desktop
   <br>
 </h1>
 
@@ -24,11 +24,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/版本-1.0.0-blue.svg" alt="版本">
-  <img src="https://img.shields.io/badge/平台-Windows%20x64-lightgrey.svg" alt="平台">
-  <img src="https://img.shields.io/badge/Tauri-v2-orange.svg" alt="Tauri">
+  <img src="https://img.shields.io/badge/版本-1.2.97-blue.svg" alt="版本">
+  <img src="https://img.shields.io/badge/平台-Windows%20|%20macOS-lightgrey.svg" alt="平台">
+  <img src="https://img.shields.io/badge/Tauri-v2.9-orange.svg" alt="Tauri">
   <img src="https://img.shields.io/badge/Vue-3-green.svg" alt="Vue 3">
-  <img src="https://img.shields.io/badge/许可证-MIT-green.svg" alt="许可证">
 </p>
 
 ---
@@ -41,10 +40,10 @@
 
 ## 项目简介
 
-MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化窗口管理界面，专为 Claude Code 开发工作流设计。它提供类似 Windows/macOS 的桌面体验，集成了终端、项目管理和 Claude 技能插件市场。
+Moonton Claude Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化窗口管理界面，专为 Claude Code 开发工作流设计。它提供类似 Windows/macOS 的桌面体验，集成了终端、项目管理和 Claude 技能插件市场。
 
 <p align="center">
-  <img src="docs/images/screenshot-main.png" alt="MindFuture Desktop 主界面" width="800">
+  <img src="docs/images/screenshot-main.png" alt="Moonton Claude Desktop 主界面" width="800">
 </p>
 
 ## 快速开始
@@ -86,7 +85,6 @@ MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化�
 #### 推荐LLM服务商
 
 - **豆包方舟Coding** - [火山方舟大模型服务平台](https://www.volcengine.com/docs/82379/1928261?lang=zh)
-- **Mooton LLM** - [mooton 内部大模型平台](https://moonton.feishu.cn/wiki/LMjOweoSRid5nmk5RoFc062nntZ)
 - **Claude Code中转站** - [大陆地区专用](https://awesome-cc.com/)
 
 ### 测试添加项目并运行
@@ -169,7 +167,8 @@ MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化�
 
 ### 集成终端
 
-- **完整 PTY 支持** - 使用 Windows ConPTY 的完整伪终端实现
+- **完整 PTY 支持** - 跨平台伪终端实现（Windows ConPTY / macOS PTY）
+- **智能 Shell 检测** - Windows 使用 PowerShell，macOS 自动检测 zsh/bash
 - **Claude Code 就绪** - 可直接运行 `claude` 命令
 - **自定义工作目录** - 支持在指定项目文件夹中启动终端
 
@@ -240,23 +239,50 @@ MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化�
 
 ### 下载安装
 
-从 [Releases](http://lf.git.oa.mt/mfpackage/vibecoding/mindfuturedesktop/-/tree/master/src-tauri/target/release/bundle) 页面下载最新版本：
-
-- **NSIS 安装程序**: `MindFuture Desktop_1.0.0_x64-setup.exe`（推荐）
-- **MSI 安装包**: `MindFuture Desktop_1.0.0_x64_en-US.msi`
-- **便携版**: `app.exe`
+从源码构建 Windows 或 macOS 安装包，请参阅[下方的开发指南](#开发指南)。已发布的安装包见 [GitHub Releases](https://github.com/LChJo/MindFutureDesktop/releases)。
 
 ### 系统要求
 
+#### Windows
 - **操作系统**: Windows 10/11 (x64)
 - **内存**: 最低 4GB
 - **磁盘空间**: 200MB 可用空间
+
+#### macOS
+- **操作系统**: macOS 11.0 (Big Sur) 或更高版本
+- **架构**: Intel x64 或 Apple Silicon (M1/M2/M3)
+- **内存**: 最低 4GB
+- **磁盘空间**: 200MB 可用空间
+- **前置软件**: Git（通过 Xcode Command Line Tools 或 Homebrew 安装）
 
 ### 前置条件
 
 - 有效的 Anthropic API 密钥（用于 Claude Code）
 
 > **注意**: Node.js 和 Claude Code CLI 已内嵌到应用中，无需单独安装。首次启动时会自动释放 Node.js，可通过设置面板一键安装 Claude Code。
+
+### macOS 特别说明
+
+1. **Git 安装**: macOS 版本使用系统 Git，需要先安装：
+   ```bash
+   # 方法 1: Xcode Command Line Tools
+   xcode-select --install
+
+   # 方法 2: Homebrew
+   brew install git
+   ```
+
+2. **首次运行**: 由于 macOS Gatekeeper 限制，首次运行需要：
+   - 右键点击应用
+   - 选择「打开」
+   - 在弹出的对话框中点击「打开」
+
+3. **如遇"已损坏"错误**:
+   ```bash
+   xattr -cr "/Applications/Moonton Claude Desktop.app"
+   ```
+
+详细的 macOS 构建指南请参阅 [BUILD_MACOS.md](docs/BUILD_MACOS.md)
 
 ## 使用指南
 
@@ -292,9 +318,10 @@ MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化�
 | 前端框架 | Vue 3 + TypeScript |
 | 状态管理 | Pinia |
 | 样式 | Less + CSS Variables |
-| 后端 | Rust + Tauri v2 |
-| 终端 | xterm.js + Windows ConPTY |
+| 后端 | Rust + Tauri v2.9 |
+| 终端 | xterm.js + portable-pty (跨平台 PTY) |
 | 构建工具 | Vite |
+| 支持平台 | Windows 10/11 (x64), macOS 11+ (Universal) |
 
 ## 开发指南
 
@@ -308,7 +335,7 @@ MindFuture Desktop 是一个基于 Tauri v2 和 Vue 3 构建的Claude图形化�
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/MindFutureDesktop.git
+git clone https://github.com/LChJo/MindFutureDesktop.git
 cd MindFutureDesktop
 
 # 安装依赖
@@ -321,13 +348,20 @@ npm run dev
 npm run build
 ```
 
+macOS 构建前运行 `npm run prepare:nodejs-macos` 准备 Node.js 通用二进制文件，详见 [macOS 构建指南](docs/BUILD_MACOS.md)。
+
 ### 可用脚本
 
 | 命令 | 说明 |
 |------|------|
 | `npm run dev` | 启动开发服务器（热重载） |
-| `npm run build` | 构建生产版本 |
+| `npm run build` | 构建生产版本（当前平台） |
 | `npm run build:frontend` | 仅构建前端 |
+| `npm run build:mac` | 构建 macOS Universal Binary |
+| `npm run build:mac-intel` | 构建 macOS Intel x64 版本 |
+| `npm run build:mac-arm` | 构建 macOS Apple Silicon ARM64 版本 |
+| `npm run build:windows` | 构建 Windows x64 版本 |
+| `npm run prepare:nodejs-macos` | 准备 macOS Node.js Universal Binary |
 | `npm run typecheck` | 运行 TypeScript 类型检查 |
 | `npm run lint` | 运行 ESLint 检查 |
 | `npm run format` | 使用 Prettier 格式化代码 |
@@ -335,7 +369,7 @@ npm run build
 ### 项目结构
 
 ```
-MindFutureDesktop/
+MoontonClaudeDesktop/
 ├── src/                          # 前端源码
 │   ├── components/               # Vue 组件
 │   │   ├── Desktop.vue          # 桌面区域
@@ -400,7 +434,7 @@ MindFutureDesktop/
 ---
 
 <p align="center">
-  <strong>MindFuture Desktop</strong> - 为 Claude Code 开发者打造的虚拟桌面环境
+  <strong>Moonton Claude Desktop</strong> - 为 Claude Code 开发者打造的虚拟桌面环境
 </p>
 
 <p align="center">

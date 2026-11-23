@@ -1,0 +1,135 @@
+name: Build macOS
+
+on:
+  push:
+    branches: [mac, main]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [mac, main]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          targets: x86_64-apple-darwin,aarch64-apple-darwin
+          profile: minimal
+          override: true
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build:frontend
+
+      - name: Prepare Node.js universal binary
+        run: |
+          cd src-tauri/resources
+          ./prepare-nodejs-macos.sh
+
+      - name: Build Tauri app (unsigned)
+        run: npm run build:mac
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-unsigned
+          path: |
+            src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+            src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app
+          retention-days: 7
+
+  sign-and-notarize:
+    needs: build-macos
+    runs-on: macos-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-unsigned
+
+      - name: Import Code Signing Certificate
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
+        run: |
+          echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
+          security create-keychain -p "$KEYCHAIN_PWD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PWD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$MACOS_CERTIFICATE_PWD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" build.keychain
+
+      - name: Sign .app bundle
+        run: |
+          /usr/bin/codesign --force --deep --sign "$DEVELOPER_ID" \
+            --options runtime --timestamp \
+            --entitlements src-tauri/entitlements.plist \
+            "Moonton Claude Desktop.app"
+        env:
+          DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+
+      - name: Create signed DMG
+        run: |
+          hdiutil create -volname "Moonton Claude Desktop" \
+            -srcfolder "Moonton Claude Desktop.app" \
+            -ov -format UDZO \
+            "Moonton-Claude-Desktop-macos-universal.dmg"
+
+      - name: Sign DMG
+        run: |
+          /usr/bin/codesign --force --sign "$DEVELOPER_ID" \
+            --timestamp \
+            "Moonton-Claude-Desktop-macos-universal.dmg"
+        env:
+          DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+
+      - name: Notarize app
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          xcrun notarytool submit "Moonton-Claude-Desktop-macos-universal.dmg" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+
+          # Staple notarization ticket
+          xcrun stapler staple "Moonton-Claude-Desktop-macos-universal.dmg"
+
+      - name: Upload signed DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-signed
+          path: "*.dmg"
+          retention-days: 30
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "*.dmg"
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# MCD (Moonton Claude Desktop CLI) wrapper script for macOS/Linux
+# This allows users to run "mcd" commands in the terminal
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CLI_PATH="$SCRIPT_DIR/bin/mcd.js"
+
+# Try to find Node.js in the following order:
+# 1. MoontonClaudeDesktop's bundled Node.js in ~/.MoontonClaudeDesktop
+# 2. Bundled Node.js in resources folder
+# 3. Common system paths
+# 4. System PATH
+
+if [ -x "$HOME/.MoontonClaudeDesktop/nodejs/node" ]; then
+    NODE_PATH="$HOME/.MoontonClaudeDesktop/nodejs/node"
+elif [ -x "$SCRIPT_DIR/../nodejs-macos/node" ]; then
+    NODE_PATH="$SCRIPT_DIR/../nodejs-macos/node"
+elif [ -x "/opt/homebrew/bin/node" ]; then
+    NODE_PATH="/opt/homebrew/bin/node"
+elif [ -x "/usr/local/bin/node" ]; then
+    NODE_PATH="/usr/local/bin/node"
+elif [ -x "/usr/bin/node" ]; then
+    NODE_PATH="/usr/bin/node"
+elif command -v node &> /dev/null; then
+    NODE_PATH="node"
+else
+    echo "Error: Node.js not found. Please ensure Node.js is installed."
+    exit 1
+fi
+
+exec "$NODE_PATH" "$CLI_PATH" "$@"
